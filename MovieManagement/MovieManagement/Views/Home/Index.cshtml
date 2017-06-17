@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Movie Information</h1>
+    <p class="lead">Movie Information is a platform to manage informations related to movies.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Movies</h2>
+        <p>
+           Add, View and delete the movies information.
+        </p>
+        <p>@Html.ActionLink("Movies", "Index", "Movies", null, new { @class = "btn btn-primary btn-lg" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Actors</h2>
+        <p>Add, View and delete the actors information.</p>
+        <p>@Html.ActionLink("Actors", "Index", "Actors", null, new { @class = "btn btn-primary btn-lg" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Producers</h2>
+        <p> Add, View and delete the producers information.</p>
+        <p>@Html.ActionLink("Producers", "Index", "Producers", null, new { @class = "btn btn-primary btn-lg" })</p>
+    </div>
+</div>

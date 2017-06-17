@@ -1,0 +1,81 @@
+﻿@model MovieManagement.Models.Movie
+
+@{
+    ViewBag.Title = "Movie";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Movie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MovieName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovieName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YearOfRelease)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YearOfRelease)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plot)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plot)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Poster)
+        </dt>
+
+        <dd>
+            @{
+                if (Model.Poster != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Poster);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src="@imgSrc" height=100 width=200 />
+
+                }
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProducerString)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProducerString)
+        </dd>
+        <dt>
+            <span><label>Casting</label></span>
+        </dt>
+
+        <dd>
+            @{
+                string actors = string.Empty;
+                if (Model.Actors != null && Model.Actors.Count > 0)
+                {
+                    List<string> actorNames = Model.Actors.Select(x => x.ActorName).ToList();
+                    actors = string.Join(", ", actorNames);
+                    <span>@actors</span>
+                    @Html.Display(actors)
+                }
+            }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,191 @@
+﻿@model MovieManagement.Models.Movie
+
+@{
+    ViewBag.Title = "Movie";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("Edit", "Movies", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Movie</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MovieId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MovieName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MovieName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MovieName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.YearOfRelease, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.YearOfRelease, new SelectList(Model.YearCollection, "Value", "Text"), "Select Year of Release", new { @id = "yeardrop" })
+                @Html.ValidationMessageFor(model => model.YearOfRelease, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Plot, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Plot, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Plot, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Poster, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="image">
+                <div class="col-md-10">
+                    <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProducerString, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.ProducerString, new SelectList(Model.ProducerCollection, "Value", "Text"), "Select Producer", new { @id = "producerdrop" })
+                @Html.ValidationMessageFor(model => model.ProducerString, "", new { @class = "text-danger" })<br /><br />
+                <a id="createproducer">Create Producer</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Subjects", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <ul class="checkboxes">
+                    @{
+
+                        for (int i = 0; i < Model.ActorsCollection.Count; i++)
+                        {
+                            <li>
+                                @{
+                                    var id = "checked" + i;
+                                    @Html.HiddenFor(m => m.ActorsCollection[i].ID)
+                                    @Html.HiddenFor(m => m.ActorsCollection[i].Name)
+                                    @Html.CheckBoxFor(m => m.ActorsCollection[i].IsSelected, new { @id = id, @class = "checkclick" })
+                                    @Html.LabelFor(m => m.ActorsCollection[i].IsSelected, Model.ActorsCollection[i].Name)
+                                }
+                            </li>
+                                    }
+                    }
+                </ul>
+                <a id="createactor">Create Actor</a>
+            </div>
+        </div>
+
+        <div id="dialog" style="display: none">
+        </div>
+        <div id="actordialog" style="display: none">
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script>
+    var dialog = $("#dialog");
+    $('#createproducer').on('click', function (e) {
+        e.preventDefault();
+        dialog.dialog({
+        autoOpen: true,
+        position: { my: "center", at: "top+200", of: window },
+        width: 700,
+        resizable: false,
+        title: 'Create Producer',
+        modal: true,
+        open: function () {
+            $(this).load('@Url.Action("CreatePartial", "Producers")');
+        },
+        buttons: {
+            "Create": function () {
+                CreatePartial();
+            }
+        }
+    });
+    return false;
+});
+    function CreatePartial() {
+        $.ajax({
+            url: '@Url.Action("CreatePartial", "Producers")',
+            type: 'POST',
+            data: $("#myForm").serialize(),
+            success: function (data) {
+                if (typeof(data) == "object") {
+                    dialog.dialog('close');
+                    $("#producerdrop").append('<option value="' + data.ProducerName + '">' +
+                        data.ProducerName + '</option>');
+                } else {
+                    $('#dialog').html(data);
+                    dialog.dialog('open');
+                }
+            }
+        });
+    }
+
+
+    var actordialog = $("#actordialog");
+    $('#createactor').on('click', function (e) {
+        e.preventDefault();
+        actordialog.dialog({
+        autoOpen: true,
+        position: { my: "center", at: "top+200", of: window },
+        width: 700,
+        resizable: false,
+        title: 'Create Actor',
+        modal: true,
+        open: function () {
+            $(this).load('@Url.Action("CreateActorPartial", "Actors")');
+        },
+        buttons: {
+            "Create": function () {
+                CreateActorPartial();
+            }
+        }
+    });
+    return false;
+});
+    function CreateActorPartial() {
+        $.ajax({
+            url: '@Url.Action("CreateActorPartial", "Actors")',
+            type: 'POST',
+            data: $("#actorForm").serialize(),
+            success: function (data) {
+                if (data.indexOf("actorForm") == -1) {
+                    actordialog.dialog('close');
+                    $(".checkboxes").html(data);
+                } else {
+                    actordialog.dialog('open');
+                    $('#actordialog').html(data);
+                }
+            }
+        });
+    }
+
+</script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

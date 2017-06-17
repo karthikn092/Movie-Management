@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MovieManagement.Models.Producer>
+
+@{
+    ViewBag.Title = "Producers";
+}
+
+<h2>Producers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProducerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dob)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bio)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProducerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dob)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bio)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProducerId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ProducerId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProducerId })
+        </td>
+    </tr>
+}
+
+</table>

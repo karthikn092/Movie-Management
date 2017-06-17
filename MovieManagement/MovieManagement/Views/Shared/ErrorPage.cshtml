@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+@{
+    ViewBag.Title = "Error";
+}
+<body>
+    <hgroup>
+        <h1 class="text-danger">Caution!</h1>
+        <h4><p>Following Movies are updated with following @ViewBag.Delete. You cannot delete the @ViewBag.Delete unless Movies are removed first.</p> </h4>
+        @{
+            <ul>
+                @foreach (var movie in ViewBag.MovieNames)
+                {
+                    <li><h5><b>@movie</b></h5></li>
+                }
+            </ul>
+        }
+        @{
+            if (ViewBag.Delete == "Actors")
+            {
+                <h5>@Html.ActionLink("Go Back to Actors List", "Index", "Actors")</h5>
+            }
+            else if (ViewBag.Delete == "Producers")
+            {
+                <h5>@Html.ActionLink("Go Back to Producers List", "Index", "Producers")</h5>
+            }
+        }
+        <h4></h4>
+    </hgroup>
+</body>
+</html>
+

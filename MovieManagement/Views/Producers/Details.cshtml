@@ -1,0 +1,42 @@
+﻿@model MovieManagement.Models.Producer
+
+@{
+    ViewBag.Title = "Producers";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Producer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProducerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProducerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dob)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dob)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bio)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProducerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

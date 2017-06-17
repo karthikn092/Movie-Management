@@ -1,0 +1,42 @@
+﻿@model MovieManagement.Models.Actor
+
+@{
+    ViewBag.Title = "Actors";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Actor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ActorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dob)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dob)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bio)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ActorId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
